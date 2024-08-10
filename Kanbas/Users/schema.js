@@ -1,3 +1,5 @@
+// kanbas-node-server-app/Kanbas/Users/schema.js
+
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
 	username: { type: String, required: true, unique: true },

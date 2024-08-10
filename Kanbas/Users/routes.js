@@ -1,8 +1,8 @@
+// kanbas-node-server-app/Kanbas/Users/routes.js
 import * as dao from "./dao.js";
 let currentUser = null;
 export default function UserRoutes(app) {
 	const createUser = async (req, res) => { };
-	const deleteUser = async (req, res) => { };
 
 	const findAllUsers = async (req, res) => {
 		const { role, name } = req.query;
@@ -18,18 +18,18 @@ export default function UserRoutes(app) {
 		}
 		const users = await dao.findAllUsers();
 		res.json(users);
-		return;
 	};
+
 
 	const findUserById = async (req, res) => {
-		try {
-			const user = await dao.findUserById(req.params.userId);
-			res.json(user);
-		} catch (error) {
-			res.status(500).json({ error: error.message });
-		}
+		const user = await dao.findUserById(req.params.userId);
+		res.json(user);
 	};
 
+	const deleteUser = async (req, res) => {
+		const status = await dao.deleteUser(req.params.userId);
+		res.json(status);
+	};
 
 
 	const updateUser = async (req, res) => { };
@@ -37,7 +37,6 @@ export default function UserRoutes(app) {
 	const signin = async (req, res) => { };
 	const signout = (req, res) => { };
 	const profile = async (req, res) => { };
-
 	app.post("/api/users", createUser);
 	app.get("/api/users", findAllUsers);
 	app.get("/api/users/:userId", findUserById);

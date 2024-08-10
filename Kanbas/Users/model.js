@@ -1,3 +1,4 @@
+// kanbas-node-server-app/Kanbas/Users/model.js
 import mongoose from "mongoose";
 import schema from "./schema.js";
 

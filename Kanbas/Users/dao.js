@@ -1,7 +1,11 @@
 // kanbas-node-server-app/Kanbas/Users/dao.js
 import model from "./model.js";
 
-export const createUser = (user) => { };
+export const createUser = (user) => {
+	delete user._id
+	return model.create(user);
+}
+
 
 export const findUsersByPartialName = (partialName) => {
 	const regex = new RegExp(partialName, "i");

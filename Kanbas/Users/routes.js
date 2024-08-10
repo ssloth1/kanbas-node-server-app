@@ -32,7 +32,18 @@ export default function UserRoutes(app) {
 	};
 
 
-	const updateUser = async (req, res) => { };
+	const updateUser = async (req, res) => {
+		const { userId } = req.params;
+		console.log("Updating user with ID:", userId);
+		try {
+			const status = await dao.updateUser(userId, req.body);
+			console.log("Update status:", status);
+			res.json(status);
+		} catch (error) {
+			console.error("Error in updateUser route:", error);
+			res.status(500).json({ error: "Failed to update user" });
+		}
+	};
 	const signup = async (req, res) => { };
 	const signin = async (req, res) => { };
 	const signout = (req, res) => { };

@@ -1,18 +1,23 @@
 import "dotenv/config";
-import express from 'express'
-import cors from 'cors'
-import mongoose from 'mongoose'
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
 import session from "express-session";
 
-import Hello from "./Hello.js"
-import Lab5 from './Lab5/index.js'
-import CourseRoutes from './Kanbas/Courses/routes.js'
-import ModuleRoutes from './Kanbas/Modules/routes.js'
-import AssignmentRoutes from './Kanbas/Assignments/routes.js'
-import UserRoutes from './Kanbas/Users/routes.js'
-
+import Hello from "./Hello.js";
+import Lab5 from './Lab5/index.js';
+import CourseRoutes from './Kanbas/Courses/routes.js';
+import ModuleRoutes from './Kanbas/Modules/routes.js';
+import AssignmentRoutes from './Kanbas/Assignments/routes.js';
+import UserRoutes from './Kanbas/Users/routes.js';
 
 const app = express();
+
+// Simple logging middleware
+app.use((req, res, next) => {
+	console.log(`${req.method} ${req.url}`);
+	next();
+});
 
 app.use(
 	cors({
@@ -27,7 +32,6 @@ const sessionOptions = {
 	saveUninitialized: false,
 };
 
-
 if (process.env.NODE_ENV !== "development") {
 	sessionOptions.proxy = true;
 	sessionOptions.cookie = {
@@ -38,11 +42,9 @@ if (process.env.NODE_ENV !== "development") {
 }
 app.use(session(sessionOptions));
 
-
-
 app.use(express.json()); // Work should start below this line
 
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas";
 mongoose.connect(CONNECTION_STRING);
 
 Lab5(app);
@@ -52,6 +54,7 @@ ModuleRoutes(app);
 AssignmentRoutes(app);
 UserRoutes(app);
 
-app.listen(process.env.PORT || 4000, () => {
-	console.log('Server is running on port 4000')
-})
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+	console.log(`Server is running on port ${PORT}`);
+});
